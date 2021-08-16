@@ -32,9 +32,22 @@ class formModel{
             return $stmt->fetch();
 
         }
+    }
 
-       
+    static public function ActualizarModel($table, $data){
 
-    
+        $stmt = Conexion::conectar()->prepare("UPDATE $table SET nombre = :nombre,email = :email,pwd=:pwd WHERE id=:id");
+
+        $stmt->bindParam(":nombre", $data["nombre"],PDO::PARAM_STR);
+        $stmt->bindParam(":email", $data["email"],PDO::PARAM_STR);
+        $stmt->bindParam(":pwd", $data["pwd"],PDO::PARAM_STR);
+        $stmt->bindParam(":id", $data["id"],PDO::PARAM_STR);
+
+        if($stmt->execute()){
+            return "ok";
+        }else{
+            print_r(Conexion::conectar()->errorInfo());
+            
+        }
     }
 }

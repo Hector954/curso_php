@@ -12,7 +12,7 @@ class formController
         }
     }
 
-    static public function Postselect($item,$value)
+    static public function Postselect($item, $value)
     {
         $table = "registros";
         $respuesta = formModel::selectModel($table, $item, $value);
@@ -39,6 +39,37 @@ class formController
             } else {
                 echo '<script> if(window.history.replaceState){window.history.replaceState(null,null,window.location.href);}</script>';
                 echo '<div class="alert alert-danger"> fallo ingreso </div>';
+            }
+        }
+    }
+
+    public function Postactualizar()
+    {
+        if (isset($_POST["unombre"])) {
+
+            if (isset($_POST["upwd" != ""])) {
+                $pass = $_POST["upwd"];
+            } else {
+                $pass = $_POST["pwdActual"];
+            }
+            $table = "registros";
+            $datos = array(
+                "id" => $_POST["idUser"],
+                "nombre" => $_POST["unombre"],
+                "email" => $_POST["uemail"],
+                "pwd" => $pass
+            );
+
+            $respuesta = formModel::ActualizarModel($table, $datos);
+
+            if ($respuesta == "ok") {
+                echo '<div class="alert alert-success"> Usuario actualizado exitosamente </div>';
+                
+                echo 
+                '<script> setTimeout(function(){
+                     window.location = "index.php?ruta=inicio";
+                },3000);
+                </script>';
             }
         }
     }
